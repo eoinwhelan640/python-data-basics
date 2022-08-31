@@ -19,6 +19,6 @@ df[df['pre_movie_score'].notnull()]
 
 
 
-
+#a
 
 
