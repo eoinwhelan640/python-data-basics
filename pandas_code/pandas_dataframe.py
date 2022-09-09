@@ -33,7 +33,7 @@ print('Starting Reading from CSV')
 print(80*'-')
 ###############################################
 # Lots of different variations on read_*, read _html,_pickle,_json etc
-df = pd.read_csv('tips.csv', header=0)
+df = pd.read_csv('../csv_data/tips.csv', header=0)
 print(df)
 
 # Access the column and index of the df. object returned is an index object

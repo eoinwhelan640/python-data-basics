@@ -59,7 +59,7 @@ print(80*'-')
 print('Starting Groupby operations')
 print(80*'-')
 ###############################################
-df = pd.read_csv('mpg.csv')
+df = pd.read_csv('../csv_data/mpg.csv')
 
 print(df.head())
 print(df['model_year'].unique()) # check our likely categorical col
@@ -206,4 +206,65 @@ pd.merge(registrations,logins,on='name',suffixes=('_reg','_log'))
 
 
 
+###############################################
+print(80*'-')
+print('Starting Input & Output - pivot tables')
+print(80*'-')
+###############################################
 
+# We have two methods for pivoting tables
+# pivot() pivots the data to be represented how we want
+# pivot_table() also pivots the table but allows an additional aggregation function to be applied
+# pivot is purely for descriptive / aesthetic purposes, ask can a group by or some other operation
+# achieve the same thing
+
+sales = pd.read_csv("../csv_data/Sales_Funnel_CRM.csv")
+
+licenses = sales[['Company','Product','Licenses']]
+
+# pivot function to recategorise the license values by company and product
+# index is what will become the index on Y axis. SHould be limited set of repating values
+# columns is the column name that will have its values converted into column names on top x axis
+                                           # should again be categorical limited range of values
+# values is the column we're trying to represent and will be whats in the actual cells of the df
+p_df = pd.pivot(data=licenses, index='Company', columns="Product", values="Licenses")
+print(p_df) # NANs are where no values exits for that
+
+# Using pivot_table lets us apply an aggregation function
+pd.pivot_table(data=sales, index="Company", aggfunc="sum")
+
+# in cases where columns don't make sense to apply an aggregation, can specify values for cols we want
+# and create a multi level index as well, it's very flexible and we can go quite deep
+print("----------------------------------")
+piv = pd.pivot_table(data=sales, index=["Account Manager","Contact"], aggfunc="sum", values=["Sale Price"])
+print(piv)
+
+print("----------------------------------")
+# Optionally add in the columns too, getting sale price separated out by product
+# essentially two tiers of multi level indexing - two tiers for index and two tiers for columns
+# also add fill_value arg for filling nulls with whatever value we want
+piv2 = pd.pivot_table(data=sales,
+                     index=["Account Manager","Contact"],
+                     aggfunc="sum",
+                     columns=["Product"],
+                      fill_value=0,
+                     values=["Sale Price"])
+print(piv2)
+
+
+print("----------------------------------")
+# Lastly we can even add in multiple funcs to apply as aggregates, ie pass in a list
+# The funcs do not have to be a string, they can be explcit func calls, once they work as a broadcast
+# and are an aggreggator
+# very complex structure - looks well in jupyter
+# margins = True at the end gives you a nice kinda summary printout of totals
+piv3 = pd.pivot_table(data=sales,
+                      index=["Account Manager","Contact"],
+                      aggfunc=["sum",np.mean],
+                      columns=["Product"],
+                      fill_value=0,
+                      values=["Sale Price"],
+                      margins=True)
+print(piv3)
+
+# Again, pivots and groupby are very similar and can do very similar things
