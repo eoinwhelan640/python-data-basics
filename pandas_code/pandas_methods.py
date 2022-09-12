@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv("tips.csv")
+df = pd.read_csv("../csv_data/tips.csv")
 ###############################################
 print(80*'-')
 print('Starting Conditional Filtering')
@@ -58,7 +58,7 @@ print(80*'-')
 print('Starting Apply()')
 print(80*'-')
 ###############################################
-df = pd.read_csv("tips.csv")
+df = pd.read_csv("../csv_data/tips.csv")
 # We define our own function which will be applied element wise to the dataframe column we choose.
 # input is atomic, it handles single elements not list
 def last_four(x):
