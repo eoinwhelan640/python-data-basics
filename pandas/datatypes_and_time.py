@@ -117,7 +117,7 @@ df = df.reset_index()
 
 # Would fail, a pandas series has no .month attribute, only the individual elements do
 #print(df['DATE'].month)
-# invoke dt.month to get the individual elemnets when broadcasting across the series
+# invoke dt.month to get the individual elements when broadcasting across the series
 print(df['DATE'].dt.month)
 
 
